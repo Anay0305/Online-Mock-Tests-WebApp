@@ -18,10 +18,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from django.shortcuts import HttpResponse,render
+from django.shortcuts import HttpResponse
 
 def fun(requests):
-    return render("home")
+    return HttpResponse("""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Testing</title>
+</head>""")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
