@@ -59,7 +59,6 @@ def Login(request):
         'error_message': error_message,
     })
 
-@login_required(login_url='login')
 def Home(request):
     return render(request, 'home.html')
 
