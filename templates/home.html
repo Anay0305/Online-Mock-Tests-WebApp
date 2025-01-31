@@ -1,0 +1,44 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1408006177880832" crossorigin="anonymous"></script>
+    <nav class="navbar">
+      <div class="navbar__container">          
+          <a id="navbar__logo">JEE ADVANCE 2025</a>
+      
+          <div class="navbar__toggle" id="mobile-menu">
+              <span class="bar"></span> 
+              <span class="bar"></span>
+              <span class="bar"></span>
+          </div>
+          <ul class="navbar__menu">
+              <li class="navbar__item">
+                  <a href="#home" class="navbar__links" id="home-page">Home</a>
+              </li>
+              <li class="navbar__item">
+                  <a href="/profile" class="navbar__links" id="performance-page">Performance</a>
+              </li>
+              <li class="navbar__item">
+                  <a href="/logout" class="navbar__links" id="marked-page">Logout</a>
+              </li>
+          </ul>
+      </div>
+    </nav>
+
+    <div class="resume__container">
+        <div class="papers" id="memorable">
+            <ul>
+            </ul>
+        </div>
+    </section>
+    </div>
+
+    <script src="{% static 'script.js' %}"></script>
+</body>
+</html>
