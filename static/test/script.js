@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
 const urlParams = new URLSearchParams(window.location.search);
 const testId = urlParams.get('testid')
 
-fetch("tests_data/get_ids/")
+fetch(`${window.location.origin}/tests_data/get_ids/`)
   .then(response => response.json())
   .then(d => {
     let x = d.ids;
@@ -41,6 +41,7 @@ fetch("tests_data/get_ids/")
   })
   .catch(error => {
     console.error("Error fetching JSON:", error);
+    window.location.href = "/";
   });
 
 const navbarLogo = document.querySelector("#navbar__logo");
