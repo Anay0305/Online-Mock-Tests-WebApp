@@ -1,27 +1,5 @@
 {
     "ids": [241,242,231,232],
-    "Papers": [
-        {
-          "title": "2024 Paper 1",
-          "id": "241",
-          "message": "3 hrs"
-        },
-        {
-          "title": "2024 Paper 2",
-          "id": "242",
-          "message": "3 hrs"
-        },
-        {
-          "title": "2023 Paper 1",
-          "id": "231",
-          "message": "3 hrs"
-        },
-        {
-          "title": "2023 Paper 2",
-          "id": "232",
-          "message": "3 hrs"
-        }
-      ],
     "themes": [
       "#ff6600",
       "#9affe1",
