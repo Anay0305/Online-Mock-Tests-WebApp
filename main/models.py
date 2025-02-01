@@ -1,3 +1,5 @@
 from django.db import models
 
-# Create your models here.
+class Attempts(models.Model):
+    username = models.TextField(primary_key=True)
+    data = models.TextField(default="[]")
