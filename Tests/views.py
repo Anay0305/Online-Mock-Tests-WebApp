@@ -4,9 +4,10 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from .models import Attempt
+from .models import Attempt, TestIds
 import json
 
+@login_required
 @csrf_exempt
 def check_attempt(request):
     if request.method == "POST":
@@ -34,3 +35,7 @@ def check_attempt(request):
             return JsonResponse({"error": "Invalid JSON format"}, status=400)
 
     return JsonResponse({"error": "Invalid method"}, status=405)
+
+@csrf_exempt
+def check_attempt(request):
+    return JsonResponse(TestIds.objects.last().data)
