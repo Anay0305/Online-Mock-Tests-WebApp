@@ -13,16 +13,79 @@
     <nav class="navbar">
         <div class="navbar__container" id="paper">
             <a id="navbar__logo">JEE ADVANCE 2025</a>
-            <div class="navbar__toggle" id="mobile-menu">
-                <span class="bar"></span> 
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
             <ul class="navbar__menu"></ul>
         </div>
     </nav>
 
+    <nav class="low">
+        <div class="low__container">
+            <div class="low__radio-container">
+                <input type="radio" id="agree" name="agreement" onclick="toggleRadio(this)" data-checked="false">
+                <label for="agree">I have read and understood the instructions, I agree that if I don’t adhere to the exam guidelines i’ll be disqualified</label>
+            </div>
+    
+            <div class="low__button-container">
+                <a class="low__button" onclick="validateAndProceed()">Start Test</a>
+                <div id="warningMessage" class="low__warning-message">Please agree to the terms before starting the test.</div>
+            </div>
+        </div>
+    </nav>
+
     <div id="username" data-username="{{ user.username }}" style="display:none;"></div>
+
+    <div class="instructions-container">
+        <div class="instructions-header">
+          <h2>Instructions:</h2>
+        </div>
+        <div class="instructions-body">
+            <p><strong>READ THE INSTRUCTIONS CAREFULLY</strong></p>
+            <p><strong>GENERAL INSTRUCTIONS</strong></p>
+            <ol>
+                <li>Total duration of the paper is <strong>3 hours (180 minutes)</strong>.</li>
+                <li>Paper contains <strong>54 questions.</strong></li>
+                <li>The on-screen computer countdown timer on the top right corner of computer screen will display the remaining time (in minutes) available to you for completing the paper. When the on-screen countdown timer reaches zero, the paper will end by itself – No input from your side will be accepted after the timer reaches zero and whatever answers have been saved by you will automatically be submitted for evaluation.</li>
+                <li>The <strong>“Submit”</strong> button present at the bottom right corner of the screen will remain deactivated during the entire 180 minutes duration of the paper. Note that the <strong>“Submit”</strong> button will be activated only after the timer has reached zero and the saved responses will be automatically submitted. It is NOT required to click on <strong>“Submit”</strong> after the timer has reached zero.</li>
+                <li>The Question Palette displayed on the right side of screen will show the status of each question as per one of the following symbols (the question numbers appear inside the symbols):</li>
+            </ol>
+            <p><img alt="Question Palette Example" src="https://s3-ap-south-1.amazonaws.com/question-bank-allen/content_data/content_images/16086333531305229852phpNkKiKjimage.png" style="height:48px; width:48px"><br>You have not visited the question yet.</p>
+            <p><img alt="Question Palette Example" src="https://s3-ap-south-1.amazonaws.com/question-bank-allen/content_data/content_images/1608633361374632600php7PTcToimage.png" style="height:48px; width:48px"><br>You have not answered the question.</p>
+            <p><img alt="Question Palette Example" src="https://s3-ap-south-1.amazonaws.com/question-bank-allen/content_data/content_images/1608633367383165010phpiBwkAnimage.png" style="height:48px; width:48px"><br>You have answered the question.</p>
+            <p><img alt="Question Palette Example" src="https://s3-ap-south-1.amazonaws.com/question-bank-allen/content_data/content_images/1608633372814418275phpTIp8xtimage.png" style="height:48px; width:52px"><br>You have NOT answered the question, but have marked the question for review.</p>
+            <p><img alt="Question Palette Example" src="https://s3-ap-south-1.amazonaws.com/question-bank-allen/content_data/content_images/16086333771950661906phpUCTWLKimage.png" style="height:53px; width:48px"><br>The question(s) "Answered and Marked for Review" will be considered for evaluation.</p>
+            <ol start="6">
+                <li>The <strong>“Marked for Review”</strong> status for a question indicates you would like to look at that question again.</li>
+                <li>You can click on the "&gt;" arrow symbol, which appears to the left of the question palette, to collapse the question palette thereby maximizing the question window. To view the question palette again, you can click on the "&lt;" symbol which appears on the right side of question window.</li>
+                <li>You can click on downward arrow symbol to navigate to the bottom and upward arrow to navigate to the top of the question area, without scrolling.</li>
+                <li>You can also use the computer mouse to scroll up/down the question viewing area to view complete contents of the question viewing area.</li>
+                <li>At the end of this <strong>“Instructions to Candidates”</strong> section, you must click on the checkbox beside the <strong>“I have read all the instructions and shall abide by them”</strong> and then only you will be able to proceed to view and answer the questions at the start of the paper. Your on-screen clock will start at the designated time of the start of the paper.</li>
+                <li>The full question paper can be viewed anytime during the paper by clicking the <strong>“Question Paper”</strong> button on the top right corner of the computer screen.</li>
+            </ol>
+            <p>These instructions can be viewed anytime during the paper by clicking <strong>“Instructions”</strong> button located at the top right corner of the computer screen.</p>
+            <strong>NAVIGATING THROUGH PARTS/SECTIONS OF QUESTION PAPER</strong>
+            <ol>
+                <li>Parts (PHYSICS, CHEMISTRY, and MATHEMATICS) and sections of the parts thereof in the question paper are displayed on the top of the screen. Questions within a section can be viewed by clicking on the corresponding section name. The section which you will be viewing will be highlighted.</li>
+                <li>After clicking the “Save & Next” button on the last question of a part/section, you will automatically be taken to the first question of the next part/section.</li>
+                <li>You can shuffle between parts/sections and questions within parts/sections anytime during the paper as per your convenience.</li>
+            </ol>
+            <strong>NAVIGATING TO A QUESTION</strong>
+            <ol>
+                <li>Click on the question number in the Question Palette at the right of the screen to go to that numbered question directly. Note that using this option does NOT save the answer (if it is answered) to the current question. To save the answer, you must click on <strong>“Save & Next”</strong> button.</li>
+                <li>Click on <strong>“Save & Next”</strong> button to save the answer for the current question and then go to the next question.</li>
+                <li>Click on <strong>“Mark for Review & Next”</strong> button to mark it for review (with or without answering the question) and go to the next question.</li>
+            </ol>
+            <strong>ANSWERING A QUESTION</strong>
+            <ul>
+                <li>Follow the procedure, given in “Instructions to Candidates” sheet (handed over to you before the start of the paper), for answering a particular type of question.</li>
+                <li>To change the answer of a question that has already been answered, if required, first click on the “Clear Response” button to clear the saved answer and then follow the procedure for answering that type of question.</li>
+                <li>To mark a question ONLY for review (i.e. without answering it), click on the <strong>“Mark for Review & Next”</strong> button.</li>
+                <li>To mark a question for review (after answering it), click on <strong>“Mark for Review & Next”</strong> button – the answered question which is also marked for review will be evaluated.</li>
+                <li>To save the answer, click on the “Save & Next” button - the answered question will be evaluated.</li>
+            </ul>
+            <strong>END OF PAPER</strong>
+            <p>When the on-screen computer countdown timer on the top right corner of computer screen reaches zero, the paper will end by itself – No input from your side will be accepted after the timer reaches zero and whatever answers have been saved by you will automatically be submitted for evaluation.</p>
+            <p><span style="color:#ff0000"><strong>NOTE: After starting the Test, the countdown will continue running in the background even if the window is closed. It is advised not to take any break during the test and finish it in one go.</strong></span></p>
+        </div>
+    </div>
 
     <script src="{% static 'test/script.js' %}"></script>
 </body>

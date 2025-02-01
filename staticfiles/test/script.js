@@ -3,6 +3,18 @@ document.addEventListener("DOMContentLoaded", function () {
   const username = usernameElement ? usernameElement.getAttribute("data-username") : "";
 
   const navbarMenu = document.querySelector(".navbar__menu");
+  const today = new Date();
+  const formattedDate = today.getDate().toString().padStart(2, '0') + '-' +
+                        (today.getMonth() + 1).toString().padStart(2, '0') + '-' +
+                        today.getFullYear();
+
+  const listItem1 = document.createElement("li");
+  listItem1.classList.add("navbar__item");
+  const link1 = document.createElement("a");
+  link1.classList.add("navbar__links");
+  link1.textContent = formattedDate;
+  listItem1.appendChild(link1);
+  navbarMenu.appendChild(listItem1);
   if (navbarMenu && username) {
       const listItem = document.createElement("li");
       listItem.classList.add("navbar__item");
@@ -35,4 +47,30 @@ fetch("/static/database.json")
 const navbarLogo = document.querySelector("#navbar__logo");
 if (navbarLogo && testId) {
     navbarLogo.textContent = `JEE ADVANCE 20${Math.floor(testId / 10)} Paper ${testId % 10}`;
+}
+
+function toggleRadio(radio) {
+  if (radio.dataset.checked === "true") {
+      radio.checked = false;
+      radio.dataset.checked = "false";
+  } else {
+      radio.checked = true;
+      radio.dataset.checked = "true";
+  }
+}
+
+function validateAndProceed() {
+  const radio = document.getElementById("agree");
+  const warningMessage = document.getElementById("warningMessage");
+
+  if (!radio.checked) {
+      warningMessage.style.display = "block";
+      setTimeout(() => {
+          warningMessage.style.display = "none";
+      }, 5000); // Hide message after 5 seconds
+  } else {
+      warningMessage.style.display = "none";
+      // Proceed with the test logic here
+      alert("Test Started!"); // Replace this with actual test initiation
+  }
 }
