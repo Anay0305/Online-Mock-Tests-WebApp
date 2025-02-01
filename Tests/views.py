@@ -37,5 +37,5 @@ def check_attempt(request):
     return JsonResponse({"error": "Invalid method"}, status=405)
 
 @csrf_exempt
-def check_attempt(request):
+def get_ids(request):
     return JsonResponse(TestIds.objects.last().data)
