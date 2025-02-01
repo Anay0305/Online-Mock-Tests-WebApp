@@ -24,7 +24,7 @@ def check_attempt(request):
                 return JsonResponse({"check": False}, status=404)
 
             if test_id in attempt.data:
-                if attempt.data[int(test_id)] == 0:
+                if attempt.data[test_id] == 0:
                     return JsonResponse({"check": False}, status=400)
                 return JsonResponse({"check": True, "count": attempt.data[int(test_id)]})
             else:
