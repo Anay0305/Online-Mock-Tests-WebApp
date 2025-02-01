@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 const urlParams = new URLSearchParams(window.location.search);
-const testId = parseInt(urlParams.get('testid'), 10);
+const testId = urlParams.get('testid')
 
 fetch("/static/database.json")
   .then(response => response.json())
@@ -46,7 +46,7 @@ fetch("/static/database.json")
 
 const navbarLogo = document.querySelector("#navbar__logo");
 if (navbarLogo && testId) {
-    navbarLogo.textContent = `JEE ADVANCE 20${Math.floor(testId / 10)} Paper ${testId % 10}`;
+    navbarLogo.textContent = `JEE ADVANCE 20${Math.floor(parseInt(testId, 10) / 10)} Paper ${parseInt(testId, 10) % 10}`;
 }
 
 function toggleRadio(radio) {
