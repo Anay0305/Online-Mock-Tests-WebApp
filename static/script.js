@@ -61,7 +61,7 @@ async function appendPapers(ids, containerId) {
 
   for (const id of ids) {
     const listItem = document.createElement("li");
-    const h1 = message.title ? `<h1>20${Math.floor(parseInt(id) / 10)} Paper ${parseInt(id) % 10}</h1>` : "";
+    const h1 = `<h1>20${Math.floor(parseInt(id) / 10)} Paper ${parseInt(id) % 10}</h1>`;
 
     const attempted = await AttemptedOrNot(id);
     
