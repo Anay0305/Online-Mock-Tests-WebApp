@@ -13,7 +13,7 @@ def check_attempt(request):
     if request.method == "POST":
         try:
             data = json.loads(request.body)
-            username = request.user.username
+            username = data.get('username')
             test_id = data.get('test_id')
 
             if not username or not test_id:
@@ -22,14 +22,14 @@ def check_attempt(request):
             try:
                 attempt = Attempt.objects.get(username=username)
             except Attempt.DoesNotExist:
-                return JsonResponse({"check": False}, status=404)
+                return JsonResponse({"check": False})
 
             if test_id in attempt.data:
                 if attempt.data[test_id] == 0:
-                    return JsonResponse({"check": False}, status=400)
+                    return JsonResponse({"check": False})
                 return JsonResponse({"check": True, "count": attempt.data[test_id]})
             else:
-                return JsonResponse({"check": False}, status=400)
+                return JsonResponse({"check": False})
 
         except json.JSONDecodeError:
             return JsonResponse({"error": "Invalid JSON format"}, status=400)
