@@ -7,12 +7,13 @@ from django.http import JsonResponse
 from .models import Attempt
 import json
 
+@login_required(login_url="login")
 @csrf_exempt
 def check_attempt(request):
     if request.method == "POST":
         try:
             data = json.loads(request.body)
-            username = data.get('username')
+            username = request.user.username
             test_id = data.get('test_id')
 
             if not username or not test_id:

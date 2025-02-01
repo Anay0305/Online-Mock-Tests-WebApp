@@ -31,7 +31,30 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 function AttemptedOrNot(paperid) {
-    return false
+  const payload = {
+      test_id: paperid
+  };
+  fetch('/tests_data/check_attempt/', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.check === true) {
+          console.log(`Paper attempted. Count: ${data.count}`);
+          return true;
+      } else {
+          console.log("Paper not attempted.");
+          return false;
+      }
+  })
+  .catch(error => {
+      console.error('Error:', error);
+      return false;
+  });
 }
 
 function appendTimelineMessages(messages, containerId) {
