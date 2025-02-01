@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
 const urlParams = new URLSearchParams(window.location.search);
 const testId = urlParams.get('testid')
 
-fetch(`${window.location.origin}/tests_data/get_ids/`)
+fetch(`${window.location.origin}/api/get_ids/`)
   .then(response => response.json())
   .then(d => {
     let x = d.ids;
@@ -70,6 +70,18 @@ function validateAndProceed() {
       }, 5000);
   } else {
       warningMessage.style.display = "none";
-      alert("Test Started!");
+      fetch(`${window.location.origin}/api/start_test/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ testid: testId }),
+    })
+    .then(response => {
+        if (response.ok) {
+            window.location.reload();
+        }
+    })
+    .catch(error => console.error('Error:', error));
   }
 }

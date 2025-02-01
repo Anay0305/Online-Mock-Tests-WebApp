@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from .models import Attempt, TestIds
+from .models import Attempt, TestIds, TestStatus
 import json
 
 @login_required
@@ -39,3 +39,20 @@ def check_attempt(request):
 @csrf_exempt
 def get_ids(request):
     return JsonResponse({"ids": TestIds.objects.last().data})
+
+@csrf_exempt
+@login_required(login_url='login')
+def StartTest(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        testid = data.get('testid')
+
+        if testid is not None:
+            user_test_status, created = TestStatus.objects.get_or_create(user=request.user, test_id=testid)
+            user_test_status.test_started = True
+            user_test_status.save()
+
+            return JsonResponse({"status": "Test started"})
+        return JsonResponse({"error": "Test ID is missing"}, status=400)
+
+    return JsonResponse({"error": "Invalid request"}, status=400)

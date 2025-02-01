@@ -1,7 +1,11 @@
 from django.shortcuts import render,HttpResponse,redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.views.decorators.csrf import csrf_exempt
+from API.models import TestStatus
+import json
 
 @user_passes_test(lambda user: not user.is_authenticated, login_url='/')
 def SignUp(request):
@@ -65,6 +69,11 @@ def Home(request):
 
 @login_required(login_url='login')
 def Test(request):
+    testid = request.GET.get('testid')
+    if testid:
+        test_status = TestStatus.objects.filter(user=request.user, test_id=testid).first()
+        if test_status and test_status.test_started:
+            return render(request, 'start_test.html')
     return render(request, 'test.html')
 
 def LogoutPage(request):

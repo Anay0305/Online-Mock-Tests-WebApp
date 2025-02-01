@@ -22,7 +22,7 @@ themeToggle.addEventListener("click", () => {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  fetch(`${window.location.origin}/tests_data/get_ids/`)
+  fetch(`${window.location.origin}/api/get_ids/`)
     .then(response => response.json())
     .then(data => {
       appendPapers(data.ids, "papers");
@@ -38,7 +38,7 @@ async function AttemptedOrNot(paperid) {
   };
 
   try {
-    const response = await fetch('${window.location.origin}/tests_data/check_attempt/', {
+    const response = await fetch('${window.location.origin}/api/check_attempt/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
