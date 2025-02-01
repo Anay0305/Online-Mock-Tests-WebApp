@@ -41,7 +41,6 @@ fetch("tests_data/get_ids/")
   })
   .catch(error => {
     console.error("Error fetching JSON:", error);
-    window.location.href = "/";
   });
 
 const navbarLogo = document.querySelector("#navbar__logo");
