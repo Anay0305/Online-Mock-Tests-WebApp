@@ -67,10 +67,9 @@ function validateAndProceed() {
       warningMessage.style.display = "block";
       setTimeout(() => {
           warningMessage.style.display = "none";
-      }, 5000); // Hide message after 5 seconds
+      }, 5000);
   } else {
       warningMessage.style.display = "none";
-      // Proceed with the test logic here
-      alert("Test Started!"); // Replace this with actual test initiation
+      alert("Test Started!");
   }
 }
