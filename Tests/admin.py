@@ -1,3 +1,4 @@
 from django.contrib import admin
 
-# Register your models here.
+from Tests.models import Attempt
+admin.site.register(Attempt)

@@ -22,6 +22,7 @@ from django.shortcuts import HttpResponse
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('tests_data/', include('Tests.urls')),
     path("", include("main.urls")),
 ]
 

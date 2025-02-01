@@ -1,3 +1,5 @@
 from django.db import models
 
-# Create your models here.
+class Attempt(models.Model):
+    username = models.TextField(primary_key=True)
+    data = models.JSONField(default=dict)
