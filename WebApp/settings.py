@@ -29,7 +29,7 @@ DEBUG = False
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "20.40.55.245", "182.65.219.121"]
 
 INSTALLED_APPS = [
-    "main.apps.AttemptsConfig"
+    "main.apps.MainConfig"
     "whitenoise.runserver_nostatic",
     'django.contrib.admin',
     'django.contrib.auth',
