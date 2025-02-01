@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
 const urlParams = new URLSearchParams(window.location.search);
 const testId = urlParams.get('testid')
 
-fetch("/static/database.json")
+fetch("tests_data/get_ids/")
   .then(response => response.json())
   .then(d => {
     let x = d.ids;

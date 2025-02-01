@@ -22,7 +22,7 @@ themeToggle.addEventListener("click", () => {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  fetch("/static/database.json")
+  fetch("tests_data/get_ids/")
     .then(response => response.json())
     .then(data => {
       appendPapers(data.ids, "papers");

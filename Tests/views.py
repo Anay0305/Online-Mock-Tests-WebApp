@@ -38,4 +38,4 @@ def check_attempt(request):
 
 @csrf_exempt
 def get_ids(request):
-    return JsonResponse(TestIds.objects.last().data)
+    return JsonResponse({"ids": TestIds.objects.last().data})

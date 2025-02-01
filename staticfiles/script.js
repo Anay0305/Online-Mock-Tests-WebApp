@@ -22,10 +22,11 @@ themeToggle.addEventListener("click", () => {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  fetch("/static/database.json")
+  fetch("tests_data/get_ids/")
     .then(response => response.json())
     .then(data => {
-      appendPapers(data.Papers, "papers");
+      console.log(data)
+      appendPapers(data.ids, "papers");
     });
 });
 
@@ -47,7 +48,6 @@ async function AttemptedOrNot(paperid) {
     });
 
     const data = await response.json();
-    console.log(data);
     return data.check === true;
   } catch (error) {
     console.error('Error:', error);
@@ -55,26 +55,26 @@ async function AttemptedOrNot(paperid) {
   }
 }
 
-async function appendPapers(messages, containerId) {
+async function appendPapers(ids, containerId) {
   const container = document.getElementById(containerId);
   if (!container) return;
   const timelineList = container.querySelector("ul");
 
-  for (const message of messages) {
+  for (const id of ids) {
     const listItem = document.createElement("li");
-    const h1 = message.title ? `<h1>${message.title}</h1>` : "";
+    const h1 = `<h1>20${Math.floor(parseInt(id) / 10)} Paper ${parseInt(id) % 10}</h1>`;
 
-    const attempted = await AttemptedOrNot(message.id);
+    const attempted = await AttemptedOrNot(id);
     
     const button = attempted
-      ? `<div class="reattempt-btn" id="ReAttempt-${message.id}">Re-Attempt Test</div>
-         <div class="result-btn" id="Res-${message.id}">View Result</div>`
-      : `<div class="start-btn" id="Start-${message.id}">Start Test</div>`;
+      ? `<div class="reattempt-btn" id="ReAttempt-${id}">Re-Attempt Test</div>
+         <div class="result-btn" id="Res-${id}">View Result</div>`
+      : `<div class="start-btn" id="Start-${id}">Start Test</div>`;
 
     const messageContent = `
       <div class="timeline__content">
         ${h1}
-        <p>${message.message}</p>
+        <p>3 hrs</p>
       </div>
       ${button}
     `;
@@ -83,19 +83,18 @@ async function appendPapers(messages, containerId) {
     timelineList.appendChild(listItem);
   }
 
-  messages.forEach(message => {
-    const startBtn = document.getElementById(`Start-${message.id}`);
-    const reattemptBtn = document.getElementById(`ReAttempt-${message.id}`);
+  ids.forEach(id => {
+    const startBtn = document.getElementById(`Start-${id}`);
+    const reattemptBtn = document.getElementById(`ReAttempt-${id}`);
 
     if (startBtn) {
       startBtn.addEventListener("click", () => {
-        window.location.href = `/test?testid=${message.id}`;
+        window.location.href = `/test?testid=${id}`;
       });
     }
-
     if (reattemptBtn) {
       reattemptBtn.addEventListener("click", () => {
-        window.location.href = `/test?testid=${message.id}`;
+        window.location.href = `/test?testid=${id}`;
       });
     }
   });
