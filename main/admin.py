@@ -1,4 +1,4 @@
 from django.contrib import admin
 
-from main.models import Attempts
-admin.site.register(Attempts)
+from main.models import Attempt
+admin.site.register(Attempt)

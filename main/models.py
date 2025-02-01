@@ -1,5 +1,5 @@
 from django.db import models
 
-class Attempts(models.Model):
+class Attempt(models.Model):
     username = models.TextField(primary_key=True)
-    data = models.TextField(default="[]")
+    data = models.TextField(default="{}")
