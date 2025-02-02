@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="{% static 'test/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'start_test/styles.css' %}">
 </head>
 <body>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1408006177880832" crossorigin="anonymous"></script>
@@ -16,7 +16,16 @@
             <ul class="navbar__menu"></ul>
         </div>
     </nav>
-
-    <script src="{% static 'test/script.js' %}"></script>
+    
+    <div id="username" data-username="{{ user.username }}" style="display:none;"></div>
+    <nav class="timer-navbar">
+        <div class="timer-navbar__container">
+            <div class="timer">
+                <span id="timerDisplay"></span>
+            </div>
+        </div>
+    </nav>
+    
+    <script src="{% static 'start_test/script.js' %}"></script>
 </body>
 </html>

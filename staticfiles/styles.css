@@ -107,7 +107,7 @@
     cursor: pointer;
     text-decoration:none;
     font-size: 1.3rem;
-    font-weight: bolder;
+    font-weight: bold;
   }
   
   .navbar__menu {
@@ -130,6 +130,7 @@
     height: 100%;
     font-size: 1rem;
     transition: all 0.3s ease;
+    font-weight: bold;
   }
   .highlight {
     border-bottom: 5px solid var(--main-accent);
@@ -186,7 +187,7 @@
       height: 2px;
       margin: 5px auto;
       transition: all 0.5s ease-in-out;
-      background: rgb(255, 255, 255);
+      background: #FBFBFB;
     }
   
     .navbar__item {
@@ -254,186 +255,186 @@
     padding: 10px 0;
     margin-bottom: 100px;
     }
-    .papers {
-    width: 80%;
-    height: auto;
-    max-width: 800px;
-    margin: 0 auto;
-    position: relative;
-    }
-    
-    .noshow {
-    display: none;
-    }
-    
-    .papers ul {
-    list-style: none;
-    }
-    .papers ul li {
-    padding: 20px;
-    background-color: #fff;
-    color: black;
-    cursor: default;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    }
+  .papers {
+  width: 80%;
+  height: auto;
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  }
+  
+  .noshow {
+  display: none;
+  }
+  
+  .papers ul {
+  list-style: none;
+  }
+  .papers ul li {
+  padding: 20px;
+  background-color: #fff;
+  color: black;
+  cursor: default;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  }
 
-    .papers ul li:hover {
-        background: rgba(0, 0, 0, 0.7); /* Dim the background */
-    }
+  .papers ul li:hover {
+      background: rgba(0, 0, 0, 0.7); /* Dim the background */
+  }
 
-    .papers ul li .start-btn {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: var(--main-accent);
-        color: black;
-        border: 3px solid black;
-        padding: 10px 40px;
-        font-size: 1.5rem;
-        font-weight: bold;
-        border-radius: 90px;
-        opacity: 0;
-        transition: opacity 0.15s ease-in-out;
-        cursor: pointer;
-    }
-    
-    .papers ul li:hover .start-btn {
-        opacity: 1;
-    }
-
-    .papers ul li .reattempt-btn {
-        position: absolute;
-        top: 50%;
-        left: 75%;
-        margin-right: -20%;
-        transform: translate(-50%, -50%);
-        background: var(--main-accent);
-        color: black;
-        border: 3px solid black;
-        padding: 10px 20px;
-        font-size: 1rem;
-        font-weight: bold;
-        border-radius: 90px;
-        opacity: 0;
-        transition: opacity 0.15s ease-in-out;
-        cursor: pointer;
-    }
-    
-    .papers ul li:hover .reattempt-btn {
-        opacity: 1;
-    }
-
-    .papers ul li .result-btn {
-        position: absolute;
-        top: 50%;
-        left: 25%;
-        margin-right: -20%;
-        transform: translate(-50%, -50%);
-        background: white;
-        color: black;
-        border: 3px solid black;
-        padding: 10px 20px;
-        font-size: 1rem;
-        font-weight: bold;
-        border-radius: 90px;
-        opacity: 0;
-        transition: opacity 0.15s ease-in-out;
-        cursor: pointer;
-    }
-    
-    .papers ul li:hover .result-btn {
-        opacity: 1;
-    }
-
-    .papers ul li:last-child {
-    margin-bottom: 0;
-    }
-    .papers__content h1 {
-    font-weight: 500;
-    font-size: 25px;
-    line-height: 30px;
-    margin-bottom: 10px;
-    }
-    .papers__content h1 a {
-    color: white;
-    }
-    .papers__content p {
-    font-size: 0.9rem;
-    line-height: 20px;
-    font-weight: 300;
-    margin-bottom: 0px;
-    }
-    .papers__content .date {
-    font-size: 12px;
-    font-weight: 300;
-    letter-spacing: 2px;
-    color: var(--main-accent);
-    }
-    
-    @media only screen and (max-width: 600px) {
-    .papers__content h1 {
-      font-size: 18px;
-    }
-    .papers__content .date {
-      font-size: 8px;
-    }
-    .papers__content p {
-      font-size: 0.8rem;
-      line-height: 15px;
-    }
-    .toggle__btn h1 {
-      font-size: 16px;
-    }
-    }
-    @media only screen and (min-width: 768px) {
-    .papers:before {
-      content: "";
+  .papers ul li .start-btn {
       position: absolute;
-      top: 0;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
-      width: 1px;
-      height: 100%;
-      background-color: black
-    }
-    .papers ul li {
-      width: 50%;
-      position: relative;
-      margin-bottom: 50px;
-    }
-    .papers ul li:nth-child(odd) {
-      float: left;
-      clear: right;
-      transform: translateX(-30px);
-      border-radius: 20px 0px 20px 20px;
-    }
-    .papers ul li:nth-child(even) {
-      float: right;
-      clear: left;
-      transform: translateX(30px);
-      border-radius: 0px 20px 20px 20px;
-    }
-    .papers ul li::before {
-      content: "";
-      position: absolute;
-      height: 10px;
-      width: 10px;
-      border-radius: 50%;
-      background-color: black;
-      top: 0px;
-    }
-    .papers ul li:nth-child(odd)::before {
-      transform: translate(50%, -50%);
-      right: -30px;
-    }
-    .papers ul li:nth-child(even)::before {
       transform: translate(-50%, -50%);
-      left: -30px;
-    }
-    .papers__content .date {
+      background: var(--main-accent);
+      color: black;
+      border: 3px solid black;
+      padding: 10px 40px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      border-radius: 90px;
+      opacity: 0;
+      transition: opacity 0.15s ease-in-out;
+      cursor: pointer;
+  }
+  
+  .papers ul li:hover .start-btn {
+      opacity: 1;
+  }
+
+  .papers ul li .reattempt-btn {
       position: absolute;
-      top: -30px;
-    }
-    }
+      top: 50%;
+      left: 75%;
+      margin-right: -20%;
+      transform: translate(-50%, -50%);
+      background: var(--main-accent);
+      color: black;
+      border: 3px solid black;
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 90px;
+      opacity: 0;
+      transition: opacity 0.15s ease-in-out;
+      cursor: pointer;
+  }
+  
+  .papers ul li:hover .reattempt-btn {
+      opacity: 1;
+  }
+
+  .papers ul li .result-btn {
+      position: absolute;
+      top: 50%;
+      left: 25%;
+      margin-right: -20%;
+      transform: translate(-50%, -50%);
+      background: #FBFBFB;
+      color: black;
+      border: 3px solid black;
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 90px;
+      opacity: 0;
+      transition: opacity 0.15s ease-in-out;
+      cursor: pointer;
+  }
+  
+  .papers ul li:hover .result-btn {
+      opacity: 1;
+  }
+
+  .papers ul li:last-child {
+  margin-bottom: 0;
+  }
+  .papers__content h1 {
+  font-weight: 500;
+  font-size: 25px;
+  line-height: 30px;
+  margin-bottom: 10px;
+  }
+  .papers__content h1 a {
+  color: #FBFBFB;
+  }
+  .papers__content p {
+  font-size: 0.9rem;
+  line-height: 20px;
+  font-weight: 300;
+  margin-bottom: 0px;
+  }
+  .papers__content .date {
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 2px;
+  color: var(--main-accent);
+  }
+  
+  @media only screen and (max-width: 600px) {
+  .papers__content h1 {
+    font-size: 18px;
+  }
+  .papers__content .date {
+    font-size: 8px;
+  }
+  .papers__content p {
+    font-size: 0.8rem;
+    line-height: 15px;
+  }
+  .toggle__btn h1 {
+    font-size: 16px;
+  }
+  }
+  @media only screen and (min-width: 768px) {
+  .papers:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 100%;
+    background-color: black
+  }
+  .papers ul li {
+    width: 50%;
+    position: relative;
+    margin-bottom: 50px;
+  }
+  .papers ul li:nth-child(odd) {
+    float: left;
+    clear: right;
+    transform: translateX(-30px);
+    border-radius: 20px 0px 20px 20px;
+  }
+  .papers ul li:nth-child(even) {
+    float: right;
+    clear: left;
+    transform: translateX(30px);
+    border-radius: 0px 20px 20px 20px;
+  }
+  .papers ul li::before {
+    content: "";
+    position: absolute;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    background-color: black;
+    top: 0px;
+  }
+  .papers ul li:nth-child(odd)::before {
+    transform: translate(50%, -50%);
+    right: -30px;
+  }
+  .papers ul li:nth-child(even)::before {
+    transform: translate(-50%, -50%);
+    left: -30px;
+  }
+  .papers__content .date {
+    position: absolute;
+    top: -30px;
+  }
+  }

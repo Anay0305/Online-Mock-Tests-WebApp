@@ -22,10 +22,10 @@ themeToggle.addEventListener("click", () => {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  fetch(`${window.location.origin}/api/get_ids/`)
+  fetch(`${window.location.origin}/api/get_tests_data/`)
     .then(response => response.json())
     .then(data => {
-      appendPapers(data.ids, "papers");
+      appendPapers(data, "papers");
     });
 });
 
@@ -38,7 +38,7 @@ async function AttemptedOrNot(paperid) {
   };
 
   try {
-    const response = await fetch('${window.location.origin}/api/check_attempt/', {
+    const response = await fetch(`${window.location.origin}/api/check_attempt/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -54,14 +54,14 @@ async function AttemptedOrNot(paperid) {
   }
 }
 
-async function appendPapers(ids, containerId) {
+async function appendPapers(tests, containerId) {
   const container = document.getElementById(containerId);
   if (!container) return;
   const timelineList = container.querySelector("ul");
 
-  for (const id of ids) {
+  for (const [id, test] of Object.entries(tests)) {
     const listItem = document.createElement("li");
-    const h1 = `<h1>20${Math.floor(parseInt(id) / 10)} Paper ${parseInt(id) % 10}</h1>`;
+    const h1 = `<h1>${test.name}</h1>`;
 
     const attempted = await AttemptedOrNot(id);
     
@@ -73,7 +73,7 @@ async function appendPapers(ids, containerId) {
     const messageContent = `
       <div class="timeline__content">
         ${h1}
-        <p>3 hrs</p>
+        <p>${test.time}</p>
       </div>
       ${button}
     `;
@@ -81,7 +81,7 @@ async function appendPapers(ids, containerId) {
     listItem.innerHTML = messageContent;
     timelineList.appendChild(listItem);
   }
-
+  let ids = Object.keys(tests);
   ids.forEach(id => {
     const startBtn = document.getElementById(`Start-${id}`);
     const reattemptBtn = document.getElementById(`ReAttempt-${id}`);

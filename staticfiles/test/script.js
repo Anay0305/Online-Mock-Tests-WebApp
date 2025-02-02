@@ -30,11 +30,15 @@ document.addEventListener("DOMContentLoaded", function () {
 const urlParams = new URLSearchParams(window.location.search);
 const testId = urlParams.get('testid')
 
-fetch(`${window.location.origin}/api/get_ids/`)
+fetch(`${window.location.origin}/api/get_tests_data/`)
   .then(response => response.json())
   .then(d => {
-    let x = d.ids;
+    let x = Object.keys(d);
     if (x.includes(testId)) {
+      const navbarLogo = document.querySelector("#navbar__logo");
+      if (navbarLogo && testId) {
+          navbarLogo.textContent = `${d[testId].name}`;
+      }
     } else {
       window.location.href = "/";
     }
@@ -43,11 +47,6 @@ fetch(`${window.location.origin}/api/get_ids/`)
     console.error("Error fetching JSON:", error);
     window.location.href = "/";
   });
-
-const navbarLogo = document.querySelector("#navbar__logo");
-if (navbarLogo && testId) {
-    navbarLogo.textContent = `JEE ADVANCE 20${Math.floor(parseInt(testId, 10) / 10)} Paper ${parseInt(testId, 10) % 10}`;
-}
 
 function toggleRadio(radio) {
   if (radio.dataset.checked === "true") {
