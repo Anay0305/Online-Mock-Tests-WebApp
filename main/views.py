@@ -68,11 +68,11 @@ def Home(request):
     return render(request, 'home.html')
 
 @login_required(login_url='login')
-def Test(request):
+def Test_url(request):
     testid = request.GET.get('testid')
     if testid:
         test = Test.objects.get(TestId=testid)
-        test_status = TestStatus.objects.filter(user=request.user, test=test).first()
+        test_status = TestStatus.objects.filter(user=request.user, Test=test).first()
         if test_status and test_status.test_started:
             return render(request, 'start_test.html')
     return render(request, 'test.html')

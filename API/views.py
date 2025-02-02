@@ -72,7 +72,7 @@ def StartTest(request):
 
         if testid is not None:
             test = Test.objects.get(TestId=testid)
-            user_test_status, created = TestStatus.objects.get_or_create(user=request.user, test=test)
+            user_test_status, created = TestStatus.objects.get_or_create(user=request.user, Test=test)
             user_test_status.test_started = True
             user_test_status.save()
 
@@ -88,7 +88,7 @@ def get_time_left(request):
         data = json.loads(request.body)
         testid = data.get('test_id')
         test = Test.objects.get(TestId=testid)
-        user_test = TestStatus.objects.get(user=request.user, test=test)
+        user_test = TestStatus.objects.get(user=request.user, Test=test)
         test_details = Test.objects.get(TestId=testid)
         if user_test is not None:
             end_time = user_test.created_at + timedelta(minutes=test_details.Time)
