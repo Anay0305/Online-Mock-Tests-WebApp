@@ -39,7 +39,7 @@
   .navbar {
     position: sticky;
     top: 0;
-    background: black;
+    background: rgb(45 112 182);
     height: 50px;
     display: flex;
     justify-content: center;
@@ -55,7 +55,7 @@
     z-index: 1;
     width: 100%;
     margin: 0 auto;
-    opacity: 0.85;
+    opacity: 1;
     padding: 0 50px;
   }
   
@@ -81,11 +81,12 @@
     align-items: center;
     cursor: default;
     justify-content: center;
-    width: 125px;
     text-decoration: none;
     height: 100%;
     font-size: 1.3rem;
     transition: all 0.3s ease;
+    padding-left: 20px;
+    padding-right: 20px;
   }
   
   @media screen and (max-width: 960px) {
@@ -188,29 +189,6 @@
   .scrollFade--animate {
     transition: opacity 0.4s ease-in-out;
   }
-  
-  .timer-navbar {
-    position: fixed;
-    top: 50px; /* Just below the first navbar */
-    right: 0;
-    left: 0;
-    background: rgb(45 112 182);
-    height: 50px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    font-size: 1.2rem;
-    color: #FBFBFB;
-    padding: 0 20px;
-    z-index: 999;
-}
-
-.timer-navbar__container {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    width: 100%;
-}
 
 .timer {
     font-size: 1.5rem;
@@ -221,4 +199,183 @@
     font-size: 1.5rem;
     font-weight: bold;
     margin-right: 25px;
+}
+
+.section-header {
+  position: fixed;
+  top: 50px;
+  right: 0;
+  left: 0;
+  background: white;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 1.2rem;
+  color: black;
+  padding: 0 20px;
+  z-index: 999;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.section-heading {
+  display: inline-block;
+  border-right: 2px solid rgb(45 112 182);
+  padding: 20px;
+}
+
+.section-header :hover {
+  cursor: pointer;
+}
+
+.text {
+  display: inline-block;
+  transition: transform 0.3s ease, text-shadow 0.3s ease;  /* Smooth transition for both effects */
+}
+
+.highlight .text {
+  color: rgb(45 112 182);
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Shadow for the text */
+  transform: scale(1.1); /* Only scale the text */
+}
+
+.question-panel-header {
+  position: fixed;
+  top: 130px;
+  right: 1rem;
+  left: 1rem;
+  background: black;
+  height: 4rem;
+  display: flex;
+  justify-content: space-between; /* Ensures elements are spaced out with space between */
+  align-items: center;
+  font-size: 1.2rem;
+  color: #FBFBFB;
+  padding: 0 20px;
+}
+
+.Question_no {
+  margin-left: 1rem;
+  font-size: 1.6rem;
+}
+
+.Timer {
+  margin-right: 1rem;
+  font-size: 1.6rem;
+}
+
+.questions-instruction {
+  position: fixed;
+  top: 194px;
+  right: 1rem;
+  left: 1rem;
+  background: rgb(44, 40, 40, 0.75);
+  height: auto;
+  display: flex;
+  justify-content: space-between; /* Ensures elements are spaced out with space between */
+  align-items: center;
+  font-size: 1.2rem;
+  color: #FBFBFB;
+  padding-right: 20px;
+  padding-left: 16px;
+  padding-top: 16px;
+  padding-bottom: 20px;
+}
+
+.questions-instruction-message {
+  margin-left: 1rem;
+  font-size: 1.2rem;
+}
+
+.low {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #FBFBFB;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  z-index: 999;
+}
+
+.low__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
+  width: 100%;
+  margin: 0 auto;
+  opacity: 1;
+  padding: 0 50px;
+}
+
+.low__radio-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.2rem;
+  color: black;
+  cursor: pointer;
+}
+
+.low__radio-container input {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.low__send__button-container {
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+.low__send__button {
+  color: #FBFBFB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  text-decoration: none;
+  height: 50px;
+  font-size: 1.3rem;
+  transition: all 0.3s ease;
+  background: #007bff;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.low__send__button:hover {
+  background: #0056b3;
+}
+
+.low__button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  }
+
+.low__button {
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  height: 50px;
+  font-size: 1.3rem;
+  transition: all 0.3s ease;
+  background: white;
+  border-radius: 8px;
+  border: 2px solid grey;
+  cursor: pointer;
+  padding: 10px 20px;
+  white-space: nowrap;
+}
+
+.low__button:hover {
+  background: #e1e2e4;
 }

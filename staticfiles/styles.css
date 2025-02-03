@@ -96,7 +96,7 @@
     z-index: 1;
     width: 100%;
     margin: 0 auto;
-    opacity: 0.85;
+    opacity: 1;
     padding: 0 50px;
   }
   
@@ -128,7 +128,7 @@
     width: 125px;
     text-decoration: none;
     height: 100%;
-    font-size: 1rem;
+    font-size: 1.3rem;
     transition: all 0.3s ease;
     font-weight: bold;
   }

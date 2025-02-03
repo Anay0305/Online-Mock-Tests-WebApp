@@ -1,7 +1,7 @@
 from django.contrib import admin
-from API.models import Attempt, Test, TestStatus, Questions, UserAnswers, Results
+from API.models import Attempt, Test, CurrentTest, Questions, UserAnswers, Results
 
-class TestStatusAdmin(admin.ModelAdmin):
+class CurrentTestAdmin(admin.ModelAdmin):
     readonly_fields = ('user', 'created_at',)
     list_display = ('user', 'test_started', 'created_at')
 
@@ -23,7 +23,7 @@ class TestAdmin(admin.ModelAdmin):
     readonly_fields = ('Total',)
 
 admin.site.register(Attempt)
-admin.site.register(TestStatus, TestStatusAdmin)
+admin.site.register(CurrentTest, CurrentTestAdmin)
 admin.site.register(Test, TestAdmin)
 admin.site.register(Questions, QuestionsAdmin)
 admin.site.register(UserAnswers, UserAnswersAdmin)

@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.utils import timezone
-from .models import Attempt, Test, TestStatus
+from .models import Attempt, Test, CurrentTest, Subject, QuestionType, Questions
 from datetime import timedelta
 import json
 
@@ -72,7 +72,54 @@ def StartTest(request):
 
         if testid is not None:
             test = Test.objects.get(TestId=testid)
-            user_test_status, created = TestStatus.objects.get_or_create(user=request.user, Test=test)
+            if test.scq != 0:
+                first = "SCQ"
+            else:
+                first = "MCQ"
+            types = test.get_question_types()
+            current = {"P": {first: 1}}
+            time_taken = {
+                "P": {},
+                "C": {},
+                "M": {}
+                }
+            for i in ["P", "C", "M"]:
+                for j in types:
+                    for k in range(types[j]):
+                        if j in time_taken[i]:
+                            time_taken[i][j][k+1] = 0
+                        else:
+                            time_taken[i][j] = {k+1: 0}
+            answer_type = {
+                "P": {},
+                "C": {},
+                "M": {}
+                }
+            for i in ["P", "C", "M"]:
+                for j in types:
+                    for k in range(types[j]):
+                        if j in answer_type[i]:
+                            answer_type[i][j][k+1] = "U"
+                        else:
+                            answer_type[i][j] = {k+1: "U"}
+            def get_type(q_type):
+                if q_type == "INTEGER" or q_type == "DIGIT":
+                    return 0
+                else:
+                    return[]
+            answers = {
+                "P": {},
+                "C": {},
+                "M": {}
+                }
+            for i in ["P", "C", "M"]:
+                for j in types:
+                    for k in range(types[j]):
+                        if j in answers[i]:
+                            answers[i][j][k+1] = get_type(j)
+                        else:
+                            answers[i][j] = {k+1: get_type(j)}
+            user_test_status, created = CurrentTest.objects.get_or_create(user=request.user, Test=test, Current=current, Time_taken=time_taken, Answer_type=answer_type, Answer=answers)
             user_test_status.test_started = True
             user_test_status.save()
 
@@ -88,15 +135,169 @@ def get_time_left(request):
         data = json.loads(request.body)
         testid = data.get('test_id')
         test = Test.objects.get(TestId=testid)
-        user_test = TestStatus.objects.get(user=request.user, Test=test)
-        test_details = Test.objects.get(TestId=testid)
+        user_test = CurrentTest.objects.get(user=request.user, Test=test)
         if user_test is not None:
-            end_time = user_test.created_at + timedelta(minutes=test_details.Time)
+            end_time = user_test.created_at + timedelta(minutes=test.Time)
             time_left = end_time.timestamp() - timezone.now().timestamp()
-            print(round(time_left))
             return JsonResponse({"time_left": round(time_left)})
         else:
             return JsonResponse({"error": "No Test Found"}, status=400)
+    return JsonResponse({"error": "Invalid request"}, status=400)
+
+@csrf_exempt
+@login_required(login_url='login')
+def update_question_time(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        testid = data.get('test_id')
+        add_time = data.get('add_time')
+        test = Test.objects.get(TestId=testid)
+        user_test = CurrentTest.objects.get(user=request.user, Test=test)
+        if user_test is not None:
+            question_time = user_test.Time_taken
+            for i in user_test.Current:
+                for j in user_test.Current[i]:
+                    k = user_test.Current[i][j]
+                    question_time[i][j][str(k)] = question_time[i][j][str(k)] + add_time
+            user_test.Time_taken = question_time
+            user_test.save()
+            return JsonResponse({"check": "True", "time": question_time[i][j][str(k)]})
+        else:
+            return JsonResponse({"error": "No Test Found"}, status=400)
+    return JsonResponse({"error": "Invalid request"}, status=400)
+
+@csrf_exempt
+@login_required(login_url='login')
+def get_question_types(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        testid = data.get('test_id')
+        test = Test.objects.get(TestId=testid)
+        return JsonResponse(test.get_question_types())
+
+@csrf_exempt
+@login_required(login_url='login')
+def get_current_question(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        testid = data.get('test_id')
+        test = Test.objects.get(TestId=testid)
+        user_test = CurrentTest.objects.get(user=request.user, Test=test)
+        if user_test is not None:
+            return JsonResponse(user_test.Current)
+        else:
+            return JsonResponse({"error": "No Test Found"}, status=400)
+    return JsonResponse({"error": "Invalid request"}, status=400)
+
+@csrf_exempt
+@login_required(login_url='login')
+def update_current_question(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        testid = data.get('test_id')
+        sub = data.get('subject')
+        typee = data.get('type')
+        number = data.get('number')
+        new_current = {sub: {typee: number}}
+        test = Test.objects.get(TestId=testid)
+        user_test = CurrentTest.objects.get(user=request.user, Test=test)
+        if user_test is not None:
+            user_test.Current = new_current
+            user_test.save()
+            return JsonResponse({"new_current": new_current})
+        else:
+            return JsonResponse({"error": "No Test Found"}, status=400)
+    return JsonResponse({"error": "Invalid request"}, status=400)
+
+@csrf_exempt
+@login_required(login_url='login')
+def get_type_data(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        testid = data.get('test_id')
+        test = Test.objects.get(TestId=testid)
+        user_test = CurrentTest.objects.get(user=request.user, Test=test)
+        current = user_test.Current
+        x = {
+            "P": Subject.PHYSICS, "C": Subject.CHEMISTRY, "M": Subject.MATH
+        }
+        xx = {
+            "SCQ": QuestionType.SCQ,
+            "MCQ": QuestionType.MCQ,
+            "INTERGER": QuestionType.INTEGER,
+            "PARAGRAPH I": QuestionType.PARAGRAPH1,
+            "PARAGRAPH II": QuestionType.PARAGRAPH2,
+            "PARAGRAPH III": QuestionType.PARAGRAPH3,
+            "MATCHING": QuestionType.MATCHING,
+            "DIGIT": QuestionType.DIGIT
+        }
+        for i in current:
+            for j in current[i]:
+                sub = x[i]
+                typee = xx[j]
+                t = j
+        question_db = Questions.objects.get(Test=test, Subject=sub, Type=typee)
+        check = False
+        if "main_message" in question_db.Questions:
+            dic = {
+                'main_question': question_db.Questions['main_message']
+            }
+            del dic["main_question"]
+        else:
+            dic = {}
+        for i in question_db.Questions:
+            if str(type(question_db.Questions[i]['Answer'])) == "list":
+                check = True
+        if question_db is not None:
+            if t == "SCQ" or t == "MATCHING":
+                message = f"This section contains <strong>{question_db.Number} {'Questions' if question_db.Number > 1 else 'Question'} .</strong> Each question has 4 options for correct answer. Multiple-Choice Questions (MCQs) <strong>Only one option is correct.</strong> For each question, marks will be awarded as follows:"
+            if t == "MCQ" or check == True:
+                message = f"This section contains <strong>{question_db.Number} {'Questions' if question_db.Number > 1 else 'Question'}.</strong> Each question has 4 options for correct answer. Multiple-Choice Questions (MCQs) <strong>One or more option is correct.</strong> For each question, marks will be awarded as follows:"
+            if t == "INTEGER":
+                message = f"This section contains <strong>{question_db.Number} {'Questions' if question_db.Number > 1 else 'Question'}.</strong><br>The answer to each question is a <strong>Numerical Value.</strong> For each question, marks will be awarded as follows:"
+            if t == "DIGIT":
+                message = f"This section contains <strong>{question_db.Number} {'Questions' if question_db.Number > 1 else 'Question'}.</strong><br>The answer to each question is a <strong>Single Digit Non negative Integer Value.</strong> For each question, marks will be awarded as follows:"
+            message += f"<br><em>Full Marks</em>          :   +{question_db.Positive} If correct answer is selected."
+            message += f"<br><em>Zero Marks</em>          :   0 If none of the option is selected."
+            message += f"<br><em>Negative Marks</em>          :   {'-' if question_db.Negative != 0 else''}{question_db.Negative} If wrong answer is selected."
+            dic["message"] = message
+            return JsonResponse(dic)
+        else:
+            return JsonResponse({"error": "No Question db Found"}, status=400)
+    return JsonResponse({"error": "Invalid request"}, status=400)
+
+@csrf_exempt
+@login_required(login_url='login')
+def get_question(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        testid = data.get('test_id')
+        test = Test.objects.get(TestId=testid)
+        user_test = CurrentTest.objects.get(user=request.user, Test=test)
+        current = user_test.Current
+        x = {
+            "P": Subject.PHYSICS, "C": Subject.CHEMISTRY, "M": Subject.MATH
+        }
+        xx = {
+            "SCQ": QuestionType.SCQ,
+            "MCQ": QuestionType.MCQ,
+            "INTERGER": QuestionType.INTEGER,
+            "PARAGRAPH I": QuestionType.PARAGRAPH1,
+            "PARAGRAPH II": QuestionType.PARAGRAPH2,
+            "PARAGRAPH III": QuestionType.PARAGRAPH3,
+            "MATCHING": QuestionType.MATCHING,
+            "DIGIT": QuestionType.DIGIT
+        }
+        for i in current:
+            for j in current[i]:
+                sub = x[i]
+                typee = xx[j]
+                number = current[i][j]
+        question_db = Questions.objects.get(Test=test, Subject=sub, Type=typee)
+        if question_db is not None:
+            return JsonResponse(question_db.Questions[number])
+        else:
+            return JsonResponse({"error": "No Question db Found"}, status=400)
     return JsonResponse({"error": "Invalid request"}, status=400)
 
 @csrf_exempt

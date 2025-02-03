@@ -13,15 +13,46 @@
     <nav class="navbar">
         <div class="navbar__container" id="paper">
             <a id="navbar__logo">JEE ADVANCE 2025</a>
-            <ul class="navbar__menu"></ul>
+            <ul class="navbar__menu">
+                <li class="navbar__item">
+                    <a class="navbar__links" id="timerDisplay"></a>
+                </li>
+            </ul>
         </div>
     </nav>
     
     <div id="username" data-username="{{ user.username }}" style="display:none;"></div>
-    <nav class="timer-navbar">
-        <div class="timer-navbar__container">
-            <div class="timer">
-                <span id="timerDisplay"></span>
+
+    <div class="test-interface">
+        <div class="section-header">
+        </div>
+        <div class="question-panel">
+            <div class="question-panel-header">
+                <span class="Question_no">Question No. 1</span>
+                <span class="Timer" id="QuestionTimer">00:00</span>
+            </div>
+            <div class="questions-instruction">
+                <p class="questions-instruction-message" id="questions_instruction"></p>
+            </div>
+        </div>
+        <div class="question">
+
+        </div>
+        <div class="answer-section">
+
+        </div>
+    </div>
+    
+    <nav class="low">
+        <div class="low__container">
+            <div class="low__radio-container">
+                <a class="low__button" onclick="validateAndProceed()">Back</a>
+                <a class="low__button" onclick="validateAndProceed()">Mark for Review & Next</a>
+                <a class="low__button" onclick="validateAndProceed()">Clear Response</a>
+            </div>
+    
+            <div class="low__send__button-container">
+                <a class="low__send__button" onclick="validateAndProceed()">Save & Next</a>
             </div>
         </div>
     </nav>

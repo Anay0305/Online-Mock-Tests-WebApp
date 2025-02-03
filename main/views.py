@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.decorators.csrf import csrf_exempt
-from API.models import TestStatus, Test
+from API.models import CurrentTest, Test
 import json
 
 @user_passes_test(lambda user: not user.is_authenticated, login_url='/')
@@ -72,7 +72,7 @@ def Test_url(request):
     testid = request.GET.get('testid')
     if testid:
         test = Test.objects.get(TestId=testid)
-        test_status = TestStatus.objects.filter(user=request.user, Test=test).first()
+        test_status = CurrentTest.objects.filter(user=request.user, Test=test).first()
         if test_status and test_status.test_started:
             return render(request, 'start_test.html')
     return render(request, 'test.html')

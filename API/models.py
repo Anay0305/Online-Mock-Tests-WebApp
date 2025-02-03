@@ -60,6 +60,32 @@ class Test(models.Model):
         if self.Questions != total*3:
             raise ValidationError("The sum of number of questions of all types doesn't matches to total number of questions")
 
+    def get_question_types(self):
+        test = self
+        types = {}
+        main_paragraph = 0
+        sub_paragraph = 0
+        if len(test.paragraph.split(",")) == 2:
+            main_paragraph = test.paragraph.split(",")[0].strip()
+            sub_paragraph = test.paragraph.split(",")[1].strip()
+        if test.scq != 0:
+            types["SCQ"] = test.scq
+        if test.mcq != 0:
+            types["MCQ"] = test.mcq
+        if main_paragraph >= 1:
+            types["PARAGRAPH I"] = sub_paragraph
+        if main_paragraph >= 2:
+            types["PARAGRAPH II"] = sub_paragraph
+        if main_paragraph >= 3:
+            types["PARAGRAPH III"] = sub_paragraph
+        if test.singledigit != 0:
+            types["DIGIT"] = test.singledigit
+        if test.integer != 0:
+            types["INTEGER"] = test.integer
+        if test.matching != 0:
+            types["MATCHING"] = test.matching
+        return types
+
     def save(self, *args, **kwargs):
         if not self.TestId:
             self.TestId = generate_random_test_id()
@@ -84,53 +110,46 @@ class Test(models.Model):
             "Option 2": "",
             "Option 3": "",
             "Option 4": "",
-            "Answer": []
+            "Answer": None
         }
         base2 = {
             "Question": "",
             "Answer": None
         }
+        base3 = {
+            "Question": "",
+            "Option 1": "",
+            "Option 2": "",
+            "Option 3": "",
+            "Option 4": "",
+            "Answer": []
+        }
         if self.scq != 0:
             dic_type[QuestionType.SCQ] = [self.scq, base1]
         if self.mcq != 0:
-            dic_type[QuestionType.MCQ] = [self.mcq, base1]
-        if self.matching != 0:
-            dic_type[QuestionType.MATCHING] = [self.matching, base1]
-        if self.integer != 0:
-            dic_type[QuestionType.INTEGER] = [self.integer, base2]
-        if self.singledigit != 0:
-            dic_type[QuestionType.DIGIT] = [self.singledigit, base2]
+            dic_type[QuestionType.MCQ] = [self.mcq, base3]
         if main_paragraph >= 1:
             dic_type[QuestionType.PARAGRAPH1] = [sub_paragraph, base1]
         if main_paragraph >= 2:
             dic_type[QuestionType.PARAGRAPH2] = [sub_paragraph, base1]
         if main_paragraph >= 3:
             dic_type[QuestionType.PARAGRAPH3] = [sub_paragraph, base1]
+        if self.singledigit != 0:
+            dic_type[QuestionType.DIGIT] = [self.singledigit, base2]
+        if self.integer != 0:
+            dic_type[QuestionType.INTEGER] = [self.integer, base2]
+        if self.matching != 0:
+            dic_type[QuestionType.MATCHING] = [self.matching, base1]
         for i in ls_sub:
             for j in dic_type:
                 dic = {}
                 for k in range(dic_type[j][0]):
                     dic[k+1] = dic_type[j][1]
+                if j.startswith("Para"):
+                    dic["main_question"] = ""
                 Questions.objects.create(Test=self, Subject=i, Number=dic_type[j][0], Type=j, Questions=dic)
-        print(self.TestId)
     def __str__(self):
         return self.Name
-
-class TestStatus(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)
-    Test = models.ForeignKey(Test, on_delete=models.CASCADE, editable=False)
-    test_started = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def get_test_name(self):
-        try:
-            test = Test.objects.get(TestId=self.test_id)
-            return test.Name
-        except Test.DoesNotExist:
-            return "Unknown Test"
-
-    def __str__(self):
-        return f"{self.user.username} - {self.Test.Name}"
 
 class Questions(models.Model):
 
@@ -155,6 +174,19 @@ class Questions(models.Model):
 
     def test_name(self):
         return f"{self.Test.Name}"
+
+class CurrentTest(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)
+    Test = models.ForeignKey(Test, on_delete=models.CASCADE, editable=False)
+    test_started = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    Current = models.JSONField(default=dict)
+    Answer_type = models.JSONField(default=dict, help_text="U = Unseen(Grey), S = Seen but not answered(Red), A = Answered(Green), M = Marked for Review(Purple), AM = Answered but Marked for Review(Purple with green)")
+    Time_taken = models.JSONField(default=dict)
+    Answer = models.JSONField(default=dict)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.Test.Name}"
 
 class UserAnswers(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)
