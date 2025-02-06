@@ -110,24 +110,16 @@ class Test(models.Model):
             "Option 2": "",
             "Option 3": "",
             "Option 4": "",
-            "Answer": None
+            "Answer": []
         }
         base2 = {
             "Question": "",
             "Answer": None
         }
-        base3 = {
-            "Question": "",
-            "Option 1": "",
-            "Option 2": "",
-            "Option 3": "",
-            "Option 4": "",
-            "Answer": []
-        }
         if self.scq != 0:
             dic_type[QuestionType.SCQ] = [self.scq, base1]
         if self.mcq != 0:
-            dic_type[QuestionType.MCQ] = [self.mcq, base3]
+            dic_type[QuestionType.MCQ] = [self.mcq, base1]
         if main_paragraph >= 1:
             dic_type[QuestionType.PARAGRAPH1] = [sub_paragraph, base1]
         if main_paragraph >= 2:
@@ -148,8 +140,29 @@ class Test(models.Model):
                 if j.startswith("Para"):
                     dic["main_question"] = ""
                 Questions.objects.create(Test=self, Subject=i, Number=dic_type[j][0], Type=j, Questions=dic)
+        for i in dic_type:
+            Section.objects.create(Test=self, Type=i, Number=dic_type[i][0])
     def __str__(self):
         return self.Name
+
+class Section(models.Model):
+
+    Test = models.ForeignKey(Test, on_delete=models.CASCADE, editable=False)
+    Number = models.IntegerField(verbose_name="Number of Questions", editable=False)
+    Positive = models.IntegerField(default=4, verbose_name="Marks", help_text="Marks for Correct Answer")
+    Negative = models.IntegerField(default=0, verbose_name="Negative Marks", help_text="Marks for Wrong Answer")
+
+    Type = models.CharField(
+        max_length=12,
+        choices=QuestionType.choices,
+        editable=False
+    )
+
+    def __str__(self):
+        return f"{self.Test.Name} - {self.Type}({self.Number})"
+
+    def test_name(self):
+        return f"{self.Test.Name}"
 
 class Questions(models.Model):
 
@@ -159,13 +172,12 @@ class Questions(models.Model):
         choices=Subject.choices,
         editable=False
     )
-    Number = models.IntegerField(verbose_name="Number of Questions")
-    Positive = models.IntegerField(default=4, verbose_name="Marks", help_text="Marks for Correct Answer")
-    Negative = models.IntegerField(default=0, verbose_name="Negative Marks", help_text="Marks for Wrong Answer")
+    Number = models.IntegerField(verbose_name="Number of Questions", editable=False)
 
     Type = models.CharField(
         max_length=12,
-        choices=QuestionType.choices
+        choices=QuestionType.choices,
+        editable=False
     )
     
     Questions = models.JSONField(default=dict)
@@ -188,6 +200,9 @@ class CurrentTest(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.Test.Name}"
 
+    def test_name(self):
+        return f"{self.Test.Name}"
+
 class UserAnswers(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)
     class Subject(models.TextChoices):
@@ -205,15 +220,12 @@ class UserAnswers(models.Model):
 
     Answers = models.JSONField(default=dict)
 
-    def get_test_name(self):
-        try:
-            test = Test.objects.get(TestId=self.test_id)
-            return test.Name
-        except Test.DoesNotExist:
-            return "Unknown Test"
     def __str__(self):
-        return f"{self.user.username} - {self.get_test_name()}"
+        return f"{self.user.username} - {self.Test.Name()}"
 
+    def test_name(self):
+        return f"{self.Test.Name}"
+    
 class Results(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)
     Test = models.ForeignKey(Test, on_delete=models.CASCADE, editable=False)
@@ -223,3 +235,6 @@ class Results(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.Test.Name}"
+    
+    def test_name(self):
+        return f"{self.Test.Name}"

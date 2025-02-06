@@ -24,38 +24,70 @@
     <div id="username" data-username="{{ user.username }}" style="display:none;"></div>
 
     <div class="test-interface">
-        <div class="section-header">
+        <div class="section-header" id="section-header">
         </div>
         <div class="question-panel">
             <div class="question-panel-header">
-                <span class="Question_no">Question No. 1</span>
-                <span class="Timer" id="QuestionTimer">00:00</span>
+                <p class="question_no" id="QuestionNo"></p>
+                <p class="timer" id="QuestionTimer">00:00</p>
             </div>
             <div class="questions-instruction">
                 <p class="questions-instruction-message" id="questions_instruction"></p>
             </div>
+            <div class="question-answer" id="question_answer">
+                <div class="question" id="question">
+                </div>
+                <div class="answer-section" id="answer-section">
+                </div>
+            </div>
         </div>
-        <div class="question">
-
-        </div>
-        <div class="answer-section">
-
+        <div class="container">
+            <div class="side-panel">
+                <div class="legend">
+                    <h4>Legend:</h4>
+                    <div class="legend-item">
+                    <img src="{% static 'svg/answered.svg' %}" alt="Answered" /> <span>Answered</span>
+                    </div>
+                    <div class="legend-item">
+                    <img src="{% static 'svg/not_answered.svg' %}" alt="Not Answered" /> <span>Not Answered</span>
+                    </div>
+                    <div class="legend-item">
+                    <img src="{% static 'svg/marked_for_review.svg' %}" alt="Marked for Review" /> <span>Marked for Review</span>
+                    </div>
+                    <div class="legend-item">
+                    <img src="{% static 'svg/not_visited.svg' %}" alt="Not Visited" /> <span>Not Visited</span>
+                    </div>
+                    <div class="legend-last-item">
+                    <img src="{% static 'svg/answered_and_marked_for_review.svg' %}" alt="Answered & Marked for Review" /> <span>Answered & marked for review (will be considered for evaluation)</span>
+                    </div>
+                </div>
+                <div class="heading">
+                    <h5>Question Palette</h5>
+                    <h4 id="palette_heading"></h4>
+                </div>
+                <div class="question-palette" id="question-palette">
+                </div>
+                <div class="submit-button-container">
+                    <a class="submit-button" onclick="submitbutton()">Submit</a>
+                </div>
+            </div>
+            <button class="open-btn" onclick="togglePanel()">&#11106;</button>
         </div>
     </div>
     
-    <nav class="low">
+    <div class="low">
         <div class="low__container">
             <div class="low__radio-container">
-                <a class="low__button" onclick="validateAndProceed()">Back</a>
-                <a class="low__button" onclick="validateAndProceed()">Mark for Review & Next</a>
-                <a class="low__button" onclick="validateAndProceed()">Clear Response</a>
+                <a class="low__button" id="back">Back</a>
+                <a class="low__button" id="mark_for_review">Mark for Review & Next</a>
+                <a class="low__button" onclick="ClearResponse(this)" id="clear">Clear Response</a>
             </div>
     
             <div class="low__send__button-container">
-                <a class="low__send__button" onclick="validateAndProceed()">Save & Next</a>
+                <a class="low__send__button" id="save">Save & Next</a>
             </div>
         </div>
-    </nav>
+    </div>
     
     <script src="{% static 'start_test/script.js' %}"></script>
 </body>
