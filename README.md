@@ -24,4 +24,10 @@ The application is designed to help students prepare effectively through repeate
 
 ---
 
+## Project Status
+
+This project was left uncompleted due to exams and academic commitments. Some features may be missing or unfinished. Please use it with this in mind.
+
+---
+
 Thank you for visiting! Feel free to explore the project and share your feedback or suggestions.
